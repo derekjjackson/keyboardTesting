@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Events Fired - fake button redux</title>
+    <link rel="stylesheet" href="css/style2.css">
+</head>
+<body>
+<div id="body">
+    <div id="sr-alert" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+    <nav><a href="demo2.html">Events Fired! (original)</a>
+        <a href="demo3.html">Up Events Fired!</a></nav>
+    <main id="main">
+        <h1>Events Fired! <span class="subtitle">Fake Button Redux</span></h1>
+        <p class="main-p">What is controlling what?</p>
+        <div class="control" id="btn-box">
+            <div tabindex="0" id="btn" role="button"> WHA' HAPPENED?! </div>
+            <div id="event-type-container">"Button" Event Triggered</div> <div id="event-type">No Event Triggered</div>
+        </div>
+        <div id="keys" class="grid">
+            <div class="cell" id="c1">
+                <h2>Key Log </h2>
+                <div id="key-log" class="key-update">
+                </div>
+            </div>
+            <div class="cell" id="c2">
+                <h2>Button Trigger</h2>
+                <div id="event-trigger" class="neonText key-update">
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script defer src="js/script3.js"></script>
+</body>
+</html>

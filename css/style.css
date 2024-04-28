@@ -1,0 +1,132 @@
+body{
+    font-family: "Comfortaa", Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
+h1 > .subtitle {
+    display: block;
+    font-size:1.5rem;
+}
+
+h2 {
+    border-bottom: solid black 2px;
+    font-size:2.5rem;
+    padding-bottom: 10px;
+}
+
+.main-p {
+    text-align: center;
+}
+
+button {
+    margin: 10px;
+}
+
+div[role='button'] {
+    margin:0 auto;
+    width: 50%;
+    min-width:20rem;
+    font-size: 2rem;
+    font-weight:bold;
+    padding: 16px;
+    background-color:white;
+    color: purple;
+    border: solid purple 4px;
+    border-radius: 10px;
+}
+
+div[role='button']:hover {
+    cursor: pointer;
+
+}
+
+
+#body {
+    width: 100%;
+    height: 100%;
+}
+
+#btn-box {
+    width: 100%;
+    text-align: center;
+}
+
+.key-update {
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: "Russo One", avenir, sans-serif;
+    min-height: 4rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 10% 40% 40% 10%;
+}
+.cell {
+    margin: 1em;
+    padding: 1rem;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+#c1{
+    grid-column-start:2;
+}
+
+#c2{
+    grid-column-start:3;
+}
+
+.sr-only {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+.neonText {
+    /* Initial style for the text */
+    color: #FFD700; /* Normal text color */
+    /* Ensure animation fills forwards to retain the end state */
+    animation: glowFade 1.5s ease-out forwards;
+}
+
+
+/* Keyframes for the red glow effect and fade to normal black text */
+@keyframes glowFade {
+    0% {
+        text-shadow: 0 0 10px #FFD700, /* Red glow */
+        0 0 20px #FFbb00, /* More intense red glow */
+        0 0 30px #FF7700, /* Even more intense red glow */
+        0 0 40px #FF0000; /* Maximum intensity red glow */
+        color: #ff0000; /* Starting with red color for the text */
+    }
+    100% {
+        text-shadow: none; /* No text-shadow at the end */
+        color: #000; /* Final text color is black */
+    }
+}
+
+:focus {
+    outline: orange 2px solid;
+    outline-radius: 5px;
+    outline-offset: 5px;
+}
+
+@media (max-width: 900px) {
+    .grid { /* You can also use a parent for specificity */
+        display: block;
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .key-update {
+        font-size: 2.5rem;
+    }
+}
