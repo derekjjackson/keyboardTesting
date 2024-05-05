@@ -11,13 +11,32 @@ const eventMssg = document.querySelector("#event-type");
 let currentKey;
 
 // FUNCTIONS
+function isHTML(str) {
+    let doc = new DOMParser().parseFromString(str, "text/html");
+    return Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
+}
+
 const update = (k, el) => {
+
     if (el.lastChild) {
         // Remove the last child of the parent element
         el.removeChild(el.lastChild);
     }
     const textNode = document.createTextNode(k);
     el.appendChild(textNode);
+}
+
+const updateHTML = (k, el) => {
+    if (isHTML(k)) {
+        console.log('HTML string')
+    } else {
+        update(k, el);
+    }
+    if (el.lastChild) {
+        // Remove the last child of the parent element
+        el.removeChild(el.lastChild);
+    }
+    el.innerHTML = k;
 }
 
 const separateCamelCase = (inputString) => {
@@ -74,15 +93,8 @@ function btnEvent(e, browserName) {
     let fired = e.detail < 1 ? "Keyboard" : "Mouse Click";
 
     // Log details of the button event to the console.
-    console.log(
-        `BUTTON FIRED!
-        Browser: ${browserName} 
-        UI Event constructor: ${uiEvent}
-        Event detail: ${e.detail}
-        Event Type: ${e.type}
-        Pointer ID: ${e.pointerId}
-        Pointer Type: ${pointerType}
-        Event Object: (SEE BELOW)`);
+    let eventDetails = `\nBrowser: ${browserName} \nUI Event constructor: ${uiEvent} \nEvent detail: ${e.detail} \nEvent Type: ${e.type} \nPointer ID: ${e.pointerId} \nPointer Type: ${pointerType}`;
+    console.log(`Browser Event Fired! \n ${eventDetails}`);
     console.log(e);
 
     // Branch the logic based on the type of the event.
@@ -90,7 +102,7 @@ function btnEvent(e, browserName) {
         // If the event is a mouseup event, specify the 'fired' variable accordingly and update the UI.
         fired = "Mouse Up";
         update("-", keyLog); // These functions (`update` and `addGlowingText`) should be defined elsewhere.
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);
         addGlowingText(fired, trigger);
         update("-", keyLog);
         let announcement = `${currentKey} pressed. Event is ${uiEvent} triggered by a ${fired}.`;
@@ -98,7 +110,7 @@ function btnEvent(e, browserName) {
     } else if (e.type === "keyup") {
         // If the event is a keyup event, update the UI accordingly.
         fired = "Key Up";
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);
         update(e.code, keyLog);
         addGlowingText(fired, trigger);
         update(currentKey, keyLog);
@@ -106,47 +118,45 @@ function btnEvent(e, browserName) {
         update(announcement, ariaMssg);
     } else if (uiEvent === "PointerEvent" && pointerType === "") {
         // Handle keyboard click events for browsers that support PointerEvent without a pointerType.
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);;
         addGlowingText(fired, trigger);
         let announcement = `${currentKey} pressed. Button trigger is ${fired}.`;
         update(announcement, ariaMssg);
         update(currentKey, keyLog);
     } else if (uiEvent === "PointerEvent" && pointerType === "mouse") {
         // Handle mouse click events for browsers that support PointerEvent with a pointerType of "mouse".
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);;
         addGlowingText(fired, trigger);
         let announcement = `${currentKey} pressed. Button trigger is ${fired}.`;
         update(announcement, ariaMssg);
         update("-", keyLog);
     } else if (uiEvent === "MouseEvent" && e.detail === 0) {
         // Handle keyboard click events for Safari/Firefox where it's registered as a MouseEvent without detail.
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);;
         update(currentKey, keyLog);
         addGlowingText(fired, trigger);
         let announcement = `${currentKey} pressed. Button trigger is ${fired}.`;
         update(announcement, ariaMssg);
-    } else if (uiEvent === "MouseEvent" && e.detail >= 1){
+    } else if (uiEvent === "MouseEvent" && e.detail >= 1) {
         // Handle mouse click events for Safari/Firefox where it's registered as a MouseEvent with detail.
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);;
         addGlowingText(fired, trigger);
         let announcement = `No key pressed. Button trigger is ${fired}.`;
         update(announcement, ariaMssg);
         update("-", keyLog);
     } else {
         // Fallback for handling other UI events that don't match the above conditions.
-        update(uiEvent, eventMssg);
+        updateHTML(`<pre>${eventDetails}</pre>`, eventMssg);;
         addGlowingText(uiEvent, trigger);
         let announcement = `Button trigger is ${uiEvent}.`;
         update(announcement, ariaMssg);
         update(currentKey, keyLog);
     }
-};
-
-
+}
 
 // EVENT LISTENERS
 
-page.addEventListener('keydown',(e)=>{
+page.addEventListener('keydown', (e) => {
     // log keyboard keydown events and check for keys that trigger click events.
     const keyPush = separateCamelCase(e.code);
     currentKey = keyPush;
@@ -158,7 +168,7 @@ page.addEventListener('keydown',(e)=>{
     update("no event triggered", eventMssg);
     update(keyPush, keyLog);
     let announcement = `${keyPush} pressed.`;
-    update (announcement, ariaMssg);
+    update(announcement, ariaMssg);
     update("-", trigger);
     // if (e.key !== 'Enter' && e.key !== ' ') {
     //     update(keyPush, keyLog);
@@ -168,7 +178,7 @@ page.addEventListener('keydown',(e)=>{
     // }
 })
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (upBtn) {
         upBtn.addEventListener('mouseup', (e) => {
             btnEvent(e, browserName);
@@ -182,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     if (btn) {
-        btn.addEventListener('click', (e)=> {
+        btn.addEventListener('click', (e) => {
             btnEvent(e, browserName);
         });
     }
